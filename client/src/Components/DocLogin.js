@@ -7,11 +7,8 @@ class DocLogin extends Component {
   cont = this.props.state.contract;
   Acc = this.props.state.accounts;
 
-
-  
-
   async checkDoc(event) {
-    event.preventDefault(true);
+    event.preventDefault();
     var result = null
     try {
       let adhaar_number = document.getElementById('doc_adhaar_number').value;
@@ -28,22 +25,19 @@ class DocLogin extends Component {
 
   }
 
-
   async registerPat(event) {
-    event.preventDefault(true);
+    event.preventDefault();
     let name = document.getElementById('patient_name').value;
     let gender = document.getElementById('patient_gender').value;
     let contact_info = document.getElementById('patient_cont').value;
-    await this.cont['OPT'].methods.signupPatient(name, contact_info, gender).send({ from: this.Acc[0] });
-    console.log(name);
-    console.log(gender);
-    console.log(contact_info);
+    let result = await this.cont['OPT'].methods.signupPatient(name, contact_info, gender);
+    let newResult = await result.send({ from: this.Acc[0] });
+    console.log("This is the new Result :",newResult);
+    console.log("Ye data to aa rha h bhai == " + name, gender, contact_info);
   }
 
-
   async checkPat(event) {
-    event.preventDefault(true);
-
+    event.preventDefault();
     var result = null;
     try {
       let adhaar_number = document.getElementById('pat_adhaar_number').value;
@@ -53,35 +47,29 @@ class DocLogin extends Component {
         alert('Invalid Credentials. Make sure Account Address and Adhaar Number is entered correctly');
       else
         this.props.onlogin(result[1], 1);
-
     }
     catch (err) {
       alert('Invalid Credentials. Make sure Account Address and Adhaar Number is entered correctly');
     }
-
   }
 
   async checkHospital(event) {
     event.preventDefault();
     var result = null;
-
     try {
       result = await this.cont['OPT'].methods.getHospitalInfo().call({ from: this.Acc[0] });
       console.log(result);
       this.props.onlogin(result[0], 2);
-
     }
     catch (err) {
       alert('Owner has not created your hospital account');
     }
-
     console.log("Hospital check");
   }
 
   async checkOwner(event) {
     event.preventDefault();
     var result = null;
-
     try {
       result = await this.cont['OPT'].methods.getOwnerInfo().call({ from: this.Acc[0] });
       console.log(result);
@@ -197,7 +185,7 @@ class DocLogin extends Component {
 
             <div className="label mt-2"><b>Address</b></div>
 
-            <input type="text" name="address" id="patient_address" placeholder="Address"></input>
+            <input type="text" name="address" placeholder="Address"></input>
             <br></br>
 
             <div className="label mt-2"><b>Gender</b></div>
@@ -238,45 +226,32 @@ class DocLogin extends Component {
     const fNum = this.state.formNum;
 
     let loadForm;
-    if (fNum == 0)
+    if (fNum === 0)
       loadForm = docForm;
-    else if (fNum == 1)
+    else if (fNum === 1)
       loadForm = patForm;
-    else if (fNum == 2)
+    else if (fNum === 2)
       loadForm = hospitalForm;
-    else if (fNum == 3)
+    else if (fNum === 3)
       loadForm = ownerForm;
-    else if (fNum == 4)
+    else if (fNum === 4)
       loadForm = insuranceCompForm;
 
 
 
     return (
-
       <div className="dlbody" >
-
         <div className="alterBut">
           <Button className="dbutton" variant="primary" value="1" onClick={(event) => this.setState({ formNum: 0 })}>Doctor</Button>
-
           <Button className="pbutton" variant="primary" value="0" onClick={(event) => this.setState({ formNum: 1 })}>Patient</Button>
-
           <Button className="pbutton" variant="primary" value="2" onClick={(event) => this.setState({ formNum: 2 })}>Hospital</Button>
-
           <Button className="pbutton" variant="primary" value="3" onClick={(event) => this.setState({ formNum: 3 })}>Owner</Button>
-
           <Button className="pbutton" variant="primary" value="4" onClick={(event) => this.setState({ formNum: 4 })}>Insurance Comp.</Button>
-
         </div>
-
-        <fieldset>
-
-          {loadForm}
-        </fieldset>
-
+        <fieldset>{loadForm}</fieldset>
       </div>
     );
   }
 }
-
 
 export default DocLogin;

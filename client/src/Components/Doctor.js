@@ -1,4 +1,3 @@
-
 import React, { Component} from 'react';
 import { Card, Tag } from 'antd';
 import DisplayPatient from "./display_patient";
@@ -25,7 +24,7 @@ class Doctor extends Component {
 
     componentDidUpdate(prevProps,prevState){
         console.warn("Updated")
-        if(this.state.load_patient != null && this.state.count==0)
+        if(this.state.load_patient !== null && this.state.count===0)
         {
             this.setState({load_patient :null})
         }

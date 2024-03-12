@@ -13,8 +13,6 @@ import Hospital from "./Components/Hospital";
 import Owner from "./Components/Owner";
 import InsuranceComp from "./Components/InsuranceComp";
 // import background from "./Components/Images/doctors.jpg"
-
-
 import "./App.css";
 import "./Components/css/antd.css"
 import 'antd/dist/antd.css';
@@ -28,9 +26,9 @@ class App extends Component {
       var tmpcont=[];
       var accounts = await web3.eth.getAccounts();
       // Get the contract instance.
-      const networkId = await web3.eth.net.getId();
+      var networkId = await web3.eth.net.getId();
       var deployedNetwork = optHealthCare.networks[networkId];
-
+      
       tmpcont['OPT'] = new web3.eth.Contract(
         optHealthCare.abi,
         deployedNetwork && deployedNetwork.address,
@@ -43,7 +41,6 @@ class App extends Component {
         deployedNetworks && deployedNetworks.address,
       );
 
-
      //set State variables to derived values.
       this.setState({ web3, accounts, contract:tmpcont});
 
@@ -54,7 +51,7 @@ class App extends Component {
       );
       console.error(error);
     }
-    console.log(this.state.accounts);  // Reflect values on console
+    // console.log(this.state.accounts);  // Reflect values on console
   };
   handleChange(event){
       this.setState({newValue: event.target.value});

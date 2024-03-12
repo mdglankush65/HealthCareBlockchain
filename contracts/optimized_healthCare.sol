@@ -18,7 +18,6 @@ contract optimized_healthCare {
   mapping (address => adhaar) patient_adhaar_info;
   mapping (address => adhaar) doctor_adhaar_info;
 
-
   struct adhaar{
     address id;
     uint64 adhaar_number;
@@ -76,7 +75,7 @@ contract optimized_healthCare {
 
   //setting the owner
   constructor() public {
-    owner = 0x5686638C16d74B6ef74CA24A10098a9360AC73F0;
+    owner = 0x599F48cDbaE93eFFf8f8C8ff128Aa966820893F8;
   }
   
   //verify doctor 
@@ -114,12 +113,12 @@ contract optimized_healthCare {
   event patientSignUp( address _patient, string message);
 
   function signupPatient(string memory _name, string memory _contact, string memory _gender) public {
-
+    
     //search for patient on blockchain by address 
     patient storage p = patients[msg.sender];
     adhaar memory a = patient_adhaar_info[msg.sender];
     //Check if the patient already exists by address
-    require(!(p.id > address(0x0)));
+    require(p.id != address(0));
     //Add patient to blockchain
     require(a.adhaar_number > 0);
 

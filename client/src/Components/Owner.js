@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Input, message, Tag, Card, Collapse } from "antd";
+// import { Input, message, Tag, Card, Collapse } from "antd";
 import { Button } from "react-bootstrap";
 
 // import healthRecord from "../contracts/DoctorAddRecord.json"
@@ -54,7 +54,8 @@ class Owner extends Component {
 
   async addUserByAdhaar(event){
     event.preventDefault();
-    var result = null;
+    // eslint-disable-next-line
+    let result = null;
     try{
       let user_type = document.getElementById('adhaar_user_type').value;
       let user_name = document.getElementById('user_name').value;
@@ -65,7 +66,7 @@ class Owner extends Component {
 
       console.log(pincode);
 
-      if(user_type == 'patient'){
+      if(user_type === 'patient'){
         result = await this.contract.methods.addPatientAdhaarInfo(adhaar_blockchain_id, user_name, dob, pincode, adhaar_number).send({ from: this.accounts[0] });
       }
       else{
